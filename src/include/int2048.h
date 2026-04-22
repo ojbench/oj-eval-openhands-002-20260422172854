@@ -14,12 +14,27 @@
 #include <cstring>
 #include <iostream>
 #include <vector>
+#include <string>
+#include <algorithm>
 
 // Do not use "using namespace std;"
 
 namespace sjtu {
 class int2048 {
-  // todo
+private:
+  // base 10^3 to keep FFT stable for double-FFT
+  static constexpr int BASE = 1000;
+  static constexpr int WIDTH = 3;
+  std::vector<int> a; // little-endian digits
+  bool neg = false;
+
+  void trim();
+  int cmp_abs(const int2048 &) const;
+  static int2048 add_abs(const int2048 &, const int2048 &);
+  static int2048 sub_abs(const int2048 &, const int2048 &); // |x| >= |y|
+  static int2048 mul_abs_fft(const int2048 &, const int2048 &);
+  static void divmod_abs(const int2048 &u, const int2048 &v, int2048 &q, int2048 &r);
+
 public:
   // Constructors
   int2048();
